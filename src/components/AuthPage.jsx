@@ -235,7 +235,7 @@ export default function AuthPage({ onLogin }) {
                                         </div>
                                         <button
                                             type="button"
-                                            onClick={() => navigate("/dashboard")}
+                                            onClick={() => navigate("/jobs")}
                                             className="w-full font-semibold py-3 rounded-md transition"
                                             style={{
                                                 backgroundColor: "#FCDC4B",
