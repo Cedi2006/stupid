@@ -11,6 +11,8 @@ createRoot(document.getElementById('root')).render(
       <Routes>
         <Route path="/" element={<App />} />
         <Route path="/classement" element={<Classement />} />
+        <Route path="/login" element ={<>Authpage</>} />
+        Route
       </Routes>
     </BrowserRouter>
   </StrictMode>,
