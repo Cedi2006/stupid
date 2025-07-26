@@ -21,9 +21,9 @@ import {
   Share as ShareIcon,
   Send as SendIcon,
 } from '@mui/icons-material';
-import { colors } from '../../styles/theme.js';
-import { SAMPLE_USERS } from '../../data/mockData';
-import { useAuth } from '../../context/AuthContext';
+import { colors } from '../styles/theme.js';
+import { SAMPLE_USERS } from '../../data/mockData.js';
+import { useAuth } from '../../Context/AuthContext.jsx';
 
 const PostCard = styled(Card)(({ theme }) => ({
   marginBottom: theme.spacing(2),

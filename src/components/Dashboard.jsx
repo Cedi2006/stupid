@@ -21,10 +21,9 @@ import Header from '../components/Layout/Header.jsx';
 import SidebarLeft from '../components/Layout/SidebarLeft.jsx';
 import SidebarRight from '../components/Layout/SidebarRight.jsx';
 import PostCard from '../components/Common/PostCard.jsx';
-import { useAuth } from '../context/AuthContext';
-
-import { colors } from '../styles/theme.js';
-import { SAMPLE_POSTS } from '../data/mockData';
+import { useAuth } from '../Context/AuthContext.jsx';
+import { colors } from '../components/styles/theme.js';
+import { SAMPLE_POSTS } from '../data/mockData.js';
 
 const DashboardContainer = styled(Container)(({ theme }) => ({
   maxWidth: '1200px !important',

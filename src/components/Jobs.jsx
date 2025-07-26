@@ -21,8 +21,8 @@ import {
 import Header from '../components/Layout/Header.jsx';
 import SidebarLeft from '../components/Layout/SidebarLeft.jsx';
 import SidebarRight from '../components/Layout/SidebarRight.jsx';
-import { colors } from '../styles/theme.js';
-import { SAMPLE_JOBS } from '../data/mockData';
+import { colors } from '../components/styles/theme.js';
+import { SAMPLE_JOBS } from '../data/mockData.js';
 
 const JobsContainer = styled(Container)(({ theme }) => ({
   maxWidth: '1200px !important',

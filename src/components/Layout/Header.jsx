@@ -23,8 +23,8 @@ import {
   ArrowDropDown as ArrowDropDownIcon,
 } from '@mui/icons-material';
 import { useNavigate, useLocation } from 'react-router-dom';
-import { useAuth } from '../../context/AuthContext';
-import { colors } from '../../styles/theme.js';
+import { useAuth } from '../../Context/AuthContext.jsx';
+import { colors } from '../../components/styles/theme.js';
 
 const StyledAppBar = styled(AppBar)(({ theme }) => ({
   backgroundColor: colors.white,

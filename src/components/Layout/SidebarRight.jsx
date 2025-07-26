@@ -17,8 +17,8 @@ import {
   TrendingUp as TrendingUpIcon,
   Info as InfoIcon,
 } from '@mui/icons-material';
-import { colors } from '../../styles/theme.js';
-import { SAMPLE_JOBS } from '../../data/mockData';
+import { colors } from '../../components/styles/theme.js';
+import { SAMPLE_JOBS } from '../../data/mockData.js';
 
 const SidebarContainer = styled(Box)(({ theme }) => ({
   width: '320px',

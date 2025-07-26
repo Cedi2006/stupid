@@ -92,7 +92,7 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 
 const NavButton = styled(IconButton, {
   shouldForwardProp: (prop) => prop !== 'active',
-})<{ active?: boolean }>(({ theme, active }) => ({
+})(({ theme, active }) => ({
   display: 'flex',
   flexDirection: 'column',
   alignItems: 'center',
@@ -117,7 +117,7 @@ const NavLabel = styled(Typography)(({ theme }) => ({
 
 const ProfileButton = styled(Button, {
   shouldForwardProp: (prop) => prop !== 'active',
-})<{ active?: boolean }>(({ theme }) => ({
+})(({ theme }) => ({
   display: 'flex',
   flexDirection: 'column',
   alignItems: 'center',
@@ -132,16 +132,14 @@ const ProfileButton = styled(Button, {
   },
 }));
 
-interface HeaderProps {}
-
-const Header: React.FC<HeaderProps> = () => {
+const Header = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const { user, logout } = useAuth();
-  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+  const [anchorEl, setAnchorEl] = useState(null);
   const [searchValue, setSearchValue] = useState('');
 
-  const handleProfileMenuOpen = (event: React.MouseEvent<HTMLElement>) => {
+  const handleProfileMenuOpen = (event) => {
     setAnchorEl(event.currentTarget);
   };
 
@@ -155,15 +153,15 @@ const Header: React.FC<HeaderProps> = () => {
     handleMenuClose();
   };
 
-  const handleNavigation = (path: string) => {
+  const handleNavigation = (path) => {
     navigate(path);
   };
 
-  const isActive = (path: string) => {
+  const isActive = (path) => {
     return location.pathname === path;
   };
 
-  const getUserInitials = (name: string) => {
+  const getUserInitials = (name) => {
     return name
       .split(' ')
       .map(n => n[0])

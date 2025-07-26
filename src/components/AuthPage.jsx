@@ -1,8 +1,8 @@
 import { useState } from "react";
 import { FaUser, FaEnvelope, FaLock, FaEye, FaEyeSlash } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
-import DarkModeToggle from "../components/DarkModeToggle";
-import Homer3D from "./Homer3D";
+import DarkModeToggle from "../components/DarkModeToggle.jsx";
+import Homer3D from "./Homer3D.jsx";
 
 export default function AuthPage({ onLogin }) {
     const [isSignUp, setIsSignUp] = useState(false);

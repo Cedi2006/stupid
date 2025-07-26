@@ -19,8 +19,8 @@ import {
   Group as GroupIcon,
   Event as EventIcon,
 } from '@mui/icons-material';
-import { useAuth } from '../../context/AuthContext';
-import { colors } from './styles/theme.js';
+import { useAuth } from '../../Context/AuthContext.jsx';
+import { colors } from '../../components/styles/theme.js';
 
 const SidebarContainer = styled(Box)(({ theme }) => ({
   width: '270px',
