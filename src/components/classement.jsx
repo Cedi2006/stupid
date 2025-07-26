@@ -137,7 +137,7 @@ const UnemploymentTracker = () => {
           <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
             <div>
               <h1 className="text-3xl font-bold text-white mb-2">
-                📊 Plateforme de Suivi des chaumeurs xd 
+                📊 Suivi des chômeurs xd 
               </h1>
               <p className="text-blue-200">
                 Gestion et suivi des personnes  par durée de chômage
