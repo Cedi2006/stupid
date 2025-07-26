@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Plus, User, Calendar, Clock, Search, Edit2, Trash2 } from 'lucide-react';
+import { Plus, User, Calendar, Clock, Search, Eye } from 'lucide-react';
 
 const UnemploymentTracker = () => {
   const [persons, setPersons] = useState([
@@ -17,7 +17,7 @@ const UnemploymentTracker = () => {
       id: 2,
       name: "Pierre Martin",
       age: 35,
-      profession: "Philosophe du Chômage ",
+      profession: "Philosophe du Chômage",
       unemploymentDuration: 120,
       lastJob: "Consulting IT",
       skills: ["Management", "Agile", "PMO"],
@@ -47,7 +47,7 @@ const UnemploymentTracker = () => {
 
   const [showForm, setShowForm] = useState(false);
   const [searchTerm, setSearchTerm] = useState('');
-  const [editingPerson, setEditingPerson] = useState(null);
+  const [selectedPerson, setSelectedPerson] = useState(null);
   const [formData, setFormData] = useState({
     name: '',
     age: '',
@@ -71,19 +71,14 @@ const UnemploymentTracker = () => {
       return;
     }
     const newPerson = {
-      id: editingPerson ? editingPerson.id : Date.now(),
+      id: Date.now(),
       ...formData,
       age: parseInt(formData.age),
       unemploymentDuration: parseInt(formData.unemploymentDuration),
       skills: formData.skills.split(',').map(skill => skill.trim())
     };
 
-    if (editingPerson) {
-      setPersons(prev => prev.map(p => p.id === editingPerson.id ? newPerson : p));
-      setEditingPerson(null);
-    } else {
-      setPersons(prev => [...prev, newPerson]);
-    }
+    setPersons(prev => [...prev, newPerson]);
 
     setFormData({
       name: '',
@@ -97,29 +92,27 @@ const UnemploymentTracker = () => {
     setShowForm(false);
   };
 
-  const handleEdit = (person) => {
-    setEditingPerson(person);
-    setFormData({
-      ...person,
-      skills: person.skills.join(', ')
-    });
-    setShowForm(true);
-  };
-
-  const handleDelete = (id) => {
-    setPersons(prev => prev.filter(p => p.id !== id));
-  };
-
   const getDurationColor = (duration) => {
-    if (duration < 30) return 'bg-green-100 text-green-800';
-    if (duration < 90) return 'bg-yellow-100 text-yellow-800';
-    return 'bg-red-100 text-red-800';
+    if (duration < 30) return 'bg-green-100 text-green-800 border-green-200';
+    if (duration < 90) return 'bg-yellow-100 text-yellow-800 border-yellow-200';
+    return 'bg-red-100 text-red-800 border-red-200';
   };
 
   const getDurationText = (duration) => {
-    if (duration < 30) return 'Court terme';
-    if (duration < 90) return 'Moyen terme';
-    return 'Long terme';
+    if (duration < 30) return 'Chaumeur debutant';
+    if (duration < 60) return 'Chomeur intermediare';
+    if (duration < 90) return 'Chomeur avance';
+    return 'Chaumeur Certifie';
+  };
+
+  const getDurationBadge = (duration) => {
+    const colorClass = getDurationColor(duration);
+    const text = getDurationText(duration);
+    return (
+      <span className={`px-3 py-1 rounded-full text-sm font-semibold border-2 ${colorClass} shadow-sm`}>
+        {text} • {duration} jours
+      </span>
+    );
   };
 
   const sortedPersons = persons
@@ -137,34 +130,13 @@ const UnemploymentTracker = () => {
           <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
             <div>
               <h1 className="text-3xl font-bold text-white mb-2">
-                📊 Suivi des chômeurs xd 
+                📊 Plateforme de Suivi des chômeurs xd 
               </h1>
               <p className="text-blue-200">
-                Gestion et suivi des personnes  par durée de chômage
+                Gestion et suivi des personnes par durée de chômage
               </p>
             </div>
-            <div className="flex gap-3">
-              <button
-                onClick={() => {
-                  setShowForm(!showForm);
-                  setEditingPerson(null);
-                  setFormData({
-                    name: '',
-                    age: '',
-                    profession: '',
-                    unemploymentDuration: '',
-                    lastJob: '',
-                    skills: '',
-                    registrationDate: new Date().toISOString().split('T')[0]
-                  });
-                }}
-                className="bg-gradient-to-r from-yellow-400 to-yellow-500 hover:from-yellow-500 hover:to-yellow-600 text-slate-900 px-6 py-3 rounded-xl font-medium transition-all duration-300 shadow-lg hover:shadow-xl flex items-center gap-2"
-                style={{ backgroundColor: '#FCDC4B' }}
-              >
-                <Plus size={20} />
-                Ajouter une personne
-              </button>
-            </div>
+            
           </div>
         </div>
 
@@ -232,7 +204,7 @@ const UnemploymentTracker = () => {
         {showForm && (
           <div className="bg-white/10 backdrop-blur-md rounded-xl p-6 mb-8 border border-white/20">
             <h2 className="text-xl font-bold text-white mb-4">
-              {editingPerson ? 'Modifier la personne' : 'Ajouter une nouvelle personne'}
+              Ajouter une nouvelle personne
             </h2>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <input
@@ -304,18 +276,107 @@ const UnemploymentTracker = () => {
                   className="px-6 py-3 bg-gradient-to-r from-yellow-400 to-yellow-500 hover:from-yellow-500 hover:to-yellow-600 text-slate-900 rounded-lg font-medium transition-all duration-300"
                   style={{ backgroundColor: '#FCDC4B' }}
                 >
-                  {editingPerson ? 'Modifier' : 'Ajouter'}
+                  Ajouter
                 </button>
                 <button
                   type="button"
-                  onClick={() => {
-                    setShowForm(false);
-                    setEditingPerson(null);
-                  }}
+                  onClick={() => setShowForm(false)}
                   className="px-6 py-3 bg-white/20 hover:bg-white/30 text-white rounded-lg font-medium transition-all duration-300"
                 >
                   Annuler
                 </button>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* Profile Modal */}
+        {selectedPerson && (
+          <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50 p-4">
+            <div className="bg-white/10 backdrop-blur-md rounded-2xl p-8 max-w-2xl w-full border border-white/20 max-h-screen overflow-y-auto">
+              <div className="flex justify-between items-start mb-6">
+                <h2 className="text-2xl font-bold text-white">Profil de {selectedPerson.name}</h2>
+                <button
+                  onClick={() => setSelectedPerson(null)}
+                  className="text-white/60 hover:text-white text-2xl"
+                >
+                  ×
+                </button>
+              </div>
+              
+              <div className="space-y-6">
+                {/* Badge de durée de chômage */}
+                <div className="text-center">
+                  <div className="inline-block">
+                    {getDurationBadge(selectedPerson.unemploymentDuration)}
+                  </div>
+                </div>
+
+                {/* Informations personnelles */}
+                <div className="bg-white/5 rounded-xl p-6">
+                  <h3 className="text-lg font-semibold text-white mb-4">Informations personnelles</h3>
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div>
+                      <p className="text-blue-200 text-sm">Nom</p>
+                      <p className="text-white font-medium text-lg">{selectedPerson.name}</p>
+                    </div>
+                    <div>
+                      <p className="text-blue-200 text-sm">Âge</p>
+                      <p className="text-white font-medium text-lg">{selectedPerson.age} ans</p>
+                    </div>
+                    <div>
+                      <p className="text-blue-200 text-sm">Profession</p>
+                      <p className="text-white font-medium text-lg">{selectedPerson.profession}</p>
+                    </div>
+                    <div>
+                      <p className="text-blue-200 text-sm">Date d'inscription</p>
+                      <p className="text-white font-medium text-lg">
+                        {new Date(selectedPerson.registrationDate).toLocaleDateString('fr-FR')}
+                      </p>Long
+                    </div>
+                  </div>
+                </div>
+
+                {/* Historique professionnel */}
+                <div className="bg-white/5 rounded-xl p-6">
+                  <h3 className="text-lg font-semibold text-white mb-4">Historique professionnel</h3>
+                  <div>
+                    <p className="text-blue-200 text-sm">Dernier emploi</p>
+                    <p className="text-white font-medium text-lg">{selectedPerson.lastJob}</p>
+                  </div>
+                </div>
+
+                {/* Compétences */}
+                <div className="bg-white/5 rounded-xl p-6">
+                  <h3 className="text-lg font-semibold text-white mb-4">Compétences</h3>
+                  <div className="flex flex-wrap gap-2">
+                    {selectedPerson.skills.map((skill, idx) => (
+                      <span
+                        key={idx}
+                        className="px-3 py-2 bg-blue-500/20 text-blue-300 rounded-lg text-sm font-medium border border-blue-500/30"
+                      >
+                        {skill}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Durée de chômage détaillée */}
+                <div className="bg-white/5 rounded-xl p-6">
+                  <h3 className="text-lg font-semibold text-white mb-4">Situation actuelle</h3>
+                  <div className="text-center">
+                    <div className="text-4xl font-bold text-white mb-2">
+                      {selectedPerson.unemploymentDuration}
+                    </div>
+                    <div className="text-blue-200">jours de chômage</div>
+                    <div className="mt-3">
+                      {getDurationBadge(selectedPerson.unemploymentDuration)}
+                    </div>
+                    <div className="mt-4 text-sm text-blue-200">
+                      Soit environ {Math.floor(selectedPerson.unemploymentDuration / 30)} mois et {selectedPerson.unemploymentDuration % 30} jours
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
@@ -339,19 +400,16 @@ const UnemploymentTracker = () => {
                       #{index + 1}
                     </div>
                     <div className="flex-1">
-                      <div className="flex items-center gap-3 mb-2">
+                      <div className="flex flex-col sm:flex-row sm:items-center gap-3 mb-3">
                         <h3 className="text-lg font-semibold text-white">{person.name}</h3>
-                        <span className={`px-3 py-1 rounded-full text-xs font-medium ${getDurationColor(person.unemploymentDuration)}`}>
-                          {getDurationText(person.unemploymentDuration)}
-                        </span>
+                        {getDurationBadge(person.unemploymentDuration)}
                       </div>
                       <div className="text-blue-200 space-y-1">
                         <p><span className="font-medium">Profession:</span> {person.profession}</p>
                         <p><span className="font-medium">Âge:</span> {person.age} ans</p>
                         <p><span className="font-medium">Dernier emploi:</span> {person.lastJob}</p>
-                        <p><span className="font-medium">Inscription:</span> {new Date(person.registrationDate).toLocaleDateString('fr-FR')}</p>
                         <div className="flex flex-wrap gap-1 mt-2">
-                          {person.skills.map((skill, idx) => (
+                          {person.skills.slice(0, 3).map((skill, idx) => (
                             <span
                               key={idx}
                               className="px-2 py-1 bg-blue-500/20 text-blue-300 rounded-md text-xs"
@@ -359,6 +417,11 @@ const UnemploymentTracker = () => {
                               {skill}
                             </span>
                           ))}
+                          {person.skills.length > 3 && (
+                            <span className="px-2 py-1 bg-blue-500/20 text-blue-300 rounded-md text-xs">
+                              +{person.skills.length - 3} autres
+                            </span>
+                          )}
                         </div>
                       </div>
                     </div>
@@ -371,20 +434,13 @@ const UnemploymentTracker = () => {
                       </div>
                       <div className="text-blue-200 text-sm">jours de chômage</div>
                     </div>
-                    <div className="flex gap-2">
-                      <button
-                        onClick={() => handleEdit(person)}
-                        className="p-2 bg-blue-500/20 hover:bg-blue-500/30 text-blue-300 rounded-lg transition-all duration-300"
-                      >
-                        <Edit2 size={16} />
-                      </button>
-                      <button
-                        onClick={() => handleDelete(person.id)}
-                        className="p-2 bg-red-500/20 hover:bg-red-500/30 text-red-300 rounded-lg transition-all duration-300"
-                      >
-                        <Trash2 size={16} />
-                      </button>
-                    </div>
+                    <button
+                      onClick={() => setSelectedPerson(person)}
+                      className="p-2 bg-blue-500/20 hover:bg-blue-500/30 text-blue-300 rounded-lg transition-all duration-300 flex items-center gap-2"
+                    >
+                      <Eye size={16} />
+                      <span className="text-sm">Voir le profil</span>
+                    </button>
                   </div>
                 </div>
               </div>
