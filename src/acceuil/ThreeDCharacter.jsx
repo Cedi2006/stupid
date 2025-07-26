@@ -123,7 +123,7 @@ function Character() {
     <primitive 
       ref={characterRef} 
       object={scene} 
-      scale={0.5} 
+      scale={0.6} 
       position={[0, 0, 0]} 
       rotation={[0, 0.5, 0]}
     />
