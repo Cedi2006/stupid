@@ -1,23 +1,40 @@
-import { useNavigate } from 'react-router-dom'
-import './App.css'
+import { useState, useEffect } from 'react';
+import './App.css';
+import Navbar from './acceuil/Navbar';
+import ThreeDCharacter from './acceuil/ThreeDCharacter';
+import MainContent from './acceuil/MainContent';
 
 function App() {
-  const navigate = useNavigate()
+	const [scrollProgress, setScrollProgress] = useState(0);
+	const [currentSection, setCurrentSection] = useState(0);
 
-  const goToClassement = () => {
-    navigate('/classement')
-  }
+	useEffect(() => {
+		const handleScroll = (e) => {
+			e.preventDefault();
+			const newProgress = (scrollProgress + (e.deltaY > 0 ? 0.02 : -0.02));
+			setScrollProgress(newProgress < 0 ? 1 + newProgress : newProgress % 1);
+		};
 
-  return (
-    <div className="flex justify-center items-center min-h-screen">
-      <button 
-        onClick={goToClassement}
-        className="px-6 py-3 text-xl bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
-      >
-        Voir le Classement
-      </button>
-    </div>
-  )
+		window.addEventListener('wheel', handleScroll, { passive: false });
+		return () => window.removeEventListener('wheel', handleScroll);
+	}, [scrollProgress]);
+
+	return (
+		<div className="flex flex-col h-screen relative overflow-hidden bg-black">
+			<div className="absolute inset-0 w-full h-full z-0">
+				<ThreeDCharacter scrollProgress={scrollProgress} setCurrentSection={setCurrentSection} />
+			</div>
+
+			<div className="relative z-10">
+				<Navbar />
+				<MainContent 
+					currentSection={currentSection}
+					scrollProgress={scrollProgress}
+					setCurrentSection={setCurrentSection}
+				/>
+			</div>
+		</div>
+	);
 }
 
-export default App
+export default App;
