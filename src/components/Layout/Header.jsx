@@ -182,7 +182,7 @@ function Header() {
     <StyledAppBar position="fixed">
       <Toolbar>
         {/* Logo */}
-        <Logo onClick={() => navigate('/dashboard')}>LinkedOut</Logo>
+        <Logo onClick={() => navigate('/classement')}>LinkedOut</Logo>
 
         {/* Search */}
         <SearchContainer>
@@ -200,8 +200,8 @@ function Header() {
         {/* Navigation */}
         <Box sx={{ display: 'flex' }}>
           <NavButton 
-            onClick={() => navigate('/dashboard')}
-            active={isActive('/dashboard')}
+            onClick={() => navigate('/classement')}
+            active={isActive('/classement')}
           >
             <HomeIcon />
             <NavText>Accueil</NavText>
