@@ -175,7 +175,7 @@ const Header = () => {
       <Toolbar sx={{ justifyContent: 'space-between', px: { xs: 2, sm: 3 } }}>
         {/* Left Section: Logo and Search */}
         <Box sx={{ display: 'flex', alignItems: 'center', flex: 1 }}>
-          <Logo onClick={() => navigate('/dashboard')}>
+          <Logo onClick={() => navigate('/classement')}>
             LinkedOut
           </Logo>
           
@@ -200,8 +200,8 @@ const Header = () => {
           maxWidth: '400px',
         }}>
           <NavButton
-            active={isActive('/dashboard')}
-            onClick={() => handleNavigation('/dashboard')}
+            active={isActive('/classement')}
+            onClick={() => handleNavigation('/classement')}
           >
             <HomeIcon fontSize="small" />
             <NavLabel>Accueil</NavLabel>
@@ -294,7 +294,10 @@ const Header = () => {
               </Box>
             </MenuItem>
             <MenuItem
-              onClick={handleLogout}
+              onClick={() => {
+                navigate('/');
+                handleMenuClose();
+              }}
               sx={{ py: 1.5, color: colors.greyText }}
             >
               Se déconnecter

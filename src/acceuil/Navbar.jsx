@@ -27,7 +27,7 @@ function Navbar() {
         <div className="flex items-center justify-between h-16">
           {/* Logo */}
           <div className="flex-shrink-0">
-            <a href="/classement" className="cursor-pointer">
+            <a href="/login" className="cursor-pointer">
               <span className="text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-yellow-400 via-yellow-300 to-yellow-500 animate-pulse">
                 � D'oh! Studios 🍺
               </span>
