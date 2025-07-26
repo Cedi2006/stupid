@@ -1,35 +1,40 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { useState, useEffect } from 'react';
+import './App.css';
+import Navbar from './acceuil/Navbar';
+import ThreeDCharacter from './acceuil/ThreeDCharacter';
+import MainContent from './acceuil/MainContent';
 
 function App() {
-  const [count, setCount] = useState(0)
+	const [scrollProgress, setScrollProgress] = useState(0);
+	const [currentSection, setCurrentSection] = useState(0);
 
-  return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
+	useEffect(() => {
+		const handleScroll = (e) => {
+			e.preventDefault();
+			const newProgress = (scrollProgress + (e.deltaY > 0 ? 0.02 : -0.02));
+			setScrollProgress(newProgress < 0 ? 1 + newProgress : newProgress % 1);
+		};
+
+		window.addEventListener('wheel', handleScroll, { passive: false });
+		return () => window.removeEventListener('wheel', handleScroll);
+	}, [scrollProgress]);
+
+	return (
+		<div className="flex flex-col h-screen relative overflow-hidden bg-black">
+			<div className="absolute inset-0 w-full h-full z-0">
+				<ThreeDCharacter scrollProgress={scrollProgress} setCurrentSection={setCurrentSection} />
+			</div>
+
+			<div className="relative z-10">
+				<Navbar />
+				<MainContent 
+					currentSection={currentSection}
+					scrollProgress={scrollProgress}
+					setCurrentSection={setCurrentSection}
+				/>
+			</div>
+		</div>
+	);
 }
 
-export default App
+export default App;
